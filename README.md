@@ -1,17 +1,5 @@
 # Task Tracker with visualization of todo's data 
 
-### Features
-
-1. Add task, edit, delete and toggle.
-2. Timer functionality on each task to keep track of daily hours
-3. data visualization with pie charts and graphs using task data to provide better insights into working methodology to improve habits
-
-
-
-
-
-# Default Info
-
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
