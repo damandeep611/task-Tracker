@@ -1,14 +1,13 @@
-import Practice from "./components/Practice"
-import TaskTracker from "./components/Todo/TaskTracker"
-
+import Practice from "./components/Practice";
+import TaskTracker from "./components/Todo/TaskTracker";
 
 function App() {
   return (
     <>
-    <TaskTracker/>
-    <Practice/>
+      <TaskTracker />
+      <Practice />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
