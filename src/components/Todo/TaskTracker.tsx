@@ -1,60 +1,85 @@
+import { useState } from "react";
 import TaskForm from "../TaskForm";
-
 import TaskCard from "./TaskCard";
 import { basicTodoLogic } from "@/hooks/basicTodoLogic";
+import { Task } from "@/types/task.types";
+import {
+  DndContext,
+  DragEndEvent,
+  DragOverlay,
+  DragStartEvent,
+} from "@dnd-kit/core";
+import ColumnDrop from "./ColumnDrop";
 
 export default function TaskTracker() {
-  const { tasks, addTask, deleteTask, toggleTask, taskStats } =
-    basicTodoLogic();
+  const {
+    tasks,
+    addTask,
+    deleteTask,
+    toggleTask,
 
+    columns,
+    moveTask,
+  } = basicTodoLogic();
+
+  const [activeTask, setActiveTask] = useState<Task | null>(null);
+
+  function handleDragStart(event: DragStartEvent) {
+    const task = tasks.find((task) => task.id === Number(event.active.id));
+    setActiveTask(task || null);
+  }
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+
+    if (!over) return;
+
+    const activeTaskId = Number(active.id);
+    const overColumnId = String(over.id);
+
+    moveTask(activeTaskId, overColumnId);
+    setActiveTask(null);
+  }
+  function handleDragCancel() {
+    setActiveTask(null);
+  }
   return (
-    <section className="max-w-md mx-auto flex flex-col rounded-lg shadow-lg p-6 mt-6 bg-white">
-      <header className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Task Tracker</h1>
-        <p className="text-gray-500 mt-1">Manage your daily tasks</p>
-      </header>
+    <DndContext
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onDragCancel={handleDragCancel}
+    >
+      <section className="mx-auto flex flex-col rounded-lg shadow-lg p-6 mt-6 bg-white">
+        <TaskForm onAddTask={addTask} />
 
-      <TaskForm onAddTask={addTask} />
-
-      <main className="space-y-3 mt-6">
-        {tasks.length === 0 ? (
-          <p className="text-center text-gray-500 py-6">
-            No tasks yet. Add one to get started!
-          </p>
-        ) : (
-          tasks.map((task) => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+          {tasks.length === 0 ? (
+            <p className="col-span-3 text-center text-gray-500 py-6">
+              No tasks added yet. Add one to get started!
+            </p>
+          ) : (
+            // adding an check to columns to avoid array error
+            Array.isArray(columns) &&
+            columns.map((column) => (
+              <ColumnDrop
+                key={column.id}
+                column={column}
+                onDelete={deleteTask}
+                onToggle={toggleTask}
+              />
+            ))
+          )}
+        </div>
+        <DragOverlay>
+          {activeTask ? (
             <TaskCard
-              key={task.id}
-              task={task}
+              task={activeTask}
               onDelete={deleteTask}
               onToggle={toggleTask}
             />
-          ))
-        )}
-      </main>
-
-      <footer className="mt-6 pt-4 border-t border-gray-200">
-        <div className="grid grid-cols-3 gap-4 text-sm">
-          <div className="text-center">
-            <p className="text-gray-500">Total</p>
-            <p className="font-semibold text-gray-900">
-              {taskStats.totalTasks}
-            </p>
-          </div>
-          <div className="text-center">
-            <p className="text-gray-500">Completed</p>
-            <p className="font-semibold text-green-600">
-              {taskStats.completedTasks}
-            </p>
-          </div>
-          <div className="text-center">
-            <p className="text-gray-500">Pending</p>
-            <p className="font-semibold text-orange-600">
-              {taskStats.pendingTasks}
-            </p>
-          </div>
-        </div>
-      </footer>
-    </section>
+          ) : null}
+        </DragOverlay>
+      </section>
+    </DndContext>
   );
 }

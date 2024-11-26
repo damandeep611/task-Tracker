@@ -12,3 +12,10 @@ export interface TaskCardProps {
   onDelete: (id: number) => void;
   onToggle: (id: number) => void;
 }
+
+// kanban column types 
+export interface Column {
+  id: string;
+  title: string;
+  tasks: (Task)[];
+}

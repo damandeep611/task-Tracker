@@ -1,11 +1,17 @@
-import Practice from "./components/Practice";
-import TaskTracker from "./components/Todo/TaskTracker";
+import Dashboard from "./components/Dashboard";
+import SideBar from "./components/SideBar";
+import { SidebarProvider, SidebarTrigger } from "./components/ui/sidebar";
 
 function App() {
   return (
     <>
-      <TaskTracker />
-      <Practice />
+      <SidebarProvider>
+        <SideBar />
+        <main>
+          <SidebarTrigger className="text-red-700" />
+          <Dashboard />
+        </main>
+      </SidebarProvider>
     </>
   );
 }
