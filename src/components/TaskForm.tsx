@@ -4,13 +4,7 @@ import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Plus } from "lucide-react";
 import { Label } from "./ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
+
 
 interface TaskFormProps {
   onAddTask: (text: string) => void;
@@ -44,23 +38,7 @@ export default function TaskForm({ onAddTask }: TaskFormProps) {
               onSubmit={handleSubmit}
             />
           </div>
-          <div>
-            <Label htmlFor="estimated-time">Estimated Time (minutes)</Label>
-            <Input id="estimated-time" type="number" />
-          </div>
-          <div>
-            <Label htmlFor="priority">Priority</Label>
-            <Select>
-              <SelectTrigger id="priority">
-                <SelectValue placeholder="Select Priority" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="low">Low</SelectItem>
-                <SelectItem value="medium">Medium</SelectItem>
-                <SelectItem value="high">High</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+
           <div className="flex items-end">
             <Button type="submit" onClick={handleSubmit}>
               <Plus className="m-2 h-4 w-4" /> Add
