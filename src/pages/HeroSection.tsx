@@ -1,9 +1,9 @@
+import { AnimatedSwitch } from "@/components/customUI/AnimatedSwitch";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-export default function Landing() {
+export default function HeroSection() {
   const [isToggled, setIsToggled] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -11,7 +11,7 @@ export default function Landing() {
     setMounted(true);
   });
   return (
-    <section className="min-h-screen bg-gradient-to-b from-background to-blue-200 overflow-hidden">
+    <section className="min-h-screen bg-gradient-to-b from-background to-slate-300 pt-12 md:pt-24 overflow-hidden">
       <div className="container mx-auto px-4 text-center pt-20 pb-32 relative z-10 ">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -24,7 +24,7 @@ export default function Landing() {
           </p>
 
           {/* ------heading animation ----*/}
-          <h1 className="capitalize text-5xl md:text-6xl font-semibold tracking-tight mb-6 leading-tight  ">
+          <h1 className="capitalize flex flex-col text-5xl md:text-6xl font-bold tracking-tight mb-6 leading-tight  ">
             <AnimatePresence mode="wait">
               <motion.span
                 key={isToggled ? "tracking" : "managing"}
@@ -34,11 +34,13 @@ export default function Landing() {
                 exit={{ opacity: 0, y: -20 }}
                 className="inline-block"
               >
-                {isToggled ? "Take control by" : "Break free by"}
+                {isToggled
+                  ? "Take control by tracking"
+                  : "Break free by Managing"}
               </motion.span>
             </AnimatePresence>
-            <span className="inline-flex items-center">
-              <span className="w-full text-left">
+            <span className="inline-block items-center">
+              {/* <span className="w-full text-left">
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={isToggled ? "tracking" : "managing"}
@@ -51,9 +53,9 @@ export default function Landing() {
                     {isToggled ? "tracking your" : "managing your"}
                   </motion.span>
                 </AnimatePresence>
-              </span>
+              </span> */}
               {mounted && (
-                <Switch
+                <AnimatedSwitch
                   checked={isToggled}
                   onCheckedChange={setIsToggled}
                   className="mx-2 data-[state=checked]:bg-primary transition-colors duration-200"
@@ -67,9 +69,9 @@ export default function Landing() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className="inline-block"
+                className="inline-block bg-gradient-to-r from-lime-300 to-emerald-500  bg-clip-text text-transparent"
               >
-                {isToggled ? "time" : "habits"}
+                {isToggled ? "your time" : " your habits"}
               </motion.span>
             </AnimatePresence>
           </h1>
@@ -128,7 +130,7 @@ function WaveAnimation() {
             duration: 20,
             ease: "easeInOut",
           }}
-          fill="#3b82f6"
+          fill="#d4f7d1"
           fillOpacity="0.2"
         />
       </svg>

@@ -1,3 +1,4 @@
+import TaskManager from "./DashboardComponents/TaskManager";
 import WeekGoal from "./DashboardComponents/WeekGoal";
 import Stats from "./Todo/Stats";
 import TaskTracker from "./Todo/TaskTracker";
@@ -13,6 +14,9 @@ export default function Dashboard() {
       <TaskTracker />
       <div>
         <WeekGoal />
+      </div>
+      <div>
+        <TaskManager />
       </div>
     </section>
   );
